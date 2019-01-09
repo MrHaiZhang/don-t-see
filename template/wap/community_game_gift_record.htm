@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <template source='TPL:common.head2' suffix='htm' />
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="stylesheet" href="{@theme:site.wap.css}/base.css"/>
+    <link rel="stylesheet" href="{@theme:site.wap.css}/community.css">
+    <style>
+        .section{padding: 0 14px;}
+        .q_layout{padding-bottom: 70px;}
+        .first-section{ width: 100%; }
+        .game_community_title{overflow: hidden}
+        .back-community{border-radius: 5px;color: #1ea4f2; display: inline-block;font-size: 10pt;padding: 3px 10px; margin-top: 25px;background-color: #fff;border: 1px solid #1ea4f2;font-weight: 700;float: right;}
+        .game-name{font-weight: 700;color:#333;float: left;font-size:18px;    padding-left:10px;margin-top: 24px;}
+        .gamelist{    height: 82px;padding:14px 0;}
+        .gamelist .header-icon-body{width: 55px;height: 55px;}
+        .game-name{    margin-top: 14px;}
+        .back-community{    margin-top: 15px;}
+        .second-section{height:50px;line-height:50px;}
+        .blue{color:#1ea4f2}
+        .red{color:#0f0;}
+        .integral{float:left;font-size:16px;color:#949494}
+        .integral .blue{font-size:16px;}
+        .record{float:right;font-size:16px;}
+        .record a{color:#949494;display: inline-block;font-size:16px;padding-left: 44px; background: url("{@theme:site.wap.images}/community/record.png") left center  no-repeat;background-size: 40px}
+        .gift_tab{display: -webkit-box; display: -webkit-flex;  display: flex;  -webkit-justify-content: space-around;  justify-content: space-around;   border-bottom: 1px solid #e5e5e5; background-color: #fff;position:relative;}
+        .gift_tab h2 {  padding: 6px 0;  font-size: 18px;  font-weight: 400;  color: #949494;  width: 49%;  }
+        .gift_tab h2.activity{color:#1ea4f2;font-weight:700;}
+        .gift_tab i.vertical_line{background:#1ea4f2;width:50%;height:4px;position:absolute;left:0;top:36px;-webkit-transition: -webkit-transform .3s ease-in-out;-moz-transition: -moz-transform .3s ease-in-out;-ms-transition: -ms-transform .3s ease-in-out;transition: transform .3s ease-in-out;}
+        .gift_tab h2:nth-of-type(1).activity~.vertical_line {transform: translateX(0); -webkit-transform: translateX(0); }
+        .gift_tab h2:nth-of-type(2).activity~.vertical_line {transform: translateX(100%);-webkit-transform: translateX(100%);}
+        .topic-title .bulletin-title{font-weight: 700;}
+        .uncontent{ text-align: center; padding: 10px 14px; }
+        .topic-brief p{text-align:left;}
+        .gift_tab h2{font-size:16px;}
+       .gift_box{background: #fff}
+        /*礼包列表部分*/
+        .welfare_list{  border-top: 1px solid #ddd; background: #fff;}
+        ul.welfare_list li{width: 100%;padding: 14px 14px;border-bottom: 1px solid #ddd;  height: auto !important; overflow: hidden }
+        .welfare_list .welfare_detail{width: 100%; position: relative;  }
+        .welfare_list li h5{font-weight: 400; font-size: 16px;  color: #000;  text-align: left;  text-overflow: ellipsis;  white-space: nowrap;  overflow: hidden; line-height: 24px; }
+        .welfare_detail a.imgWrap{    display: inline-block;  width: 80px;  height: 80px;  text-align: left;  position: absolute;  left: 0;  top: 0;}
+        img.img_icon{border-radius: 18%;width: 100%;height: auto; vertical-align:middle; text-align: left;box-shadow: 1px 1px 7px #000;}
+        a.imgWrap .placeholder{display: inline-block; height: 100%;vertical-align: middle; }
+        .welfare_detail_desc{text-align: left;  color: #666;  font-size: 12px;  font-weight: 200;  text-overflow: ellipsis;  white-space: nowrap;  overflow: hidden; line-height: 20px; }
+        .welfare_detail_desc a{color: #666; }
+        .welfare_remain{ color: #666;  font-size: 12px;  font-weight: 200;  padding-left: 10px;  text-align: left;  text-overflow: ellipsis;  white-space: nowrap;  overflow: hidden;  padding-left: 90px;  line-height: 20px; }
+        .welfare_remain i{ color: red;  }
+        .welfare_integral{font-size:12px;font-weight: 200}
+        .welfare_integral i{font-weight: bold}
+        #gift_content .welfare_remain i,#gift_content .welfare_integral i{ color: #1ea4f2; font-size:14px; }
+        .welfare_detail span.welfare_download_a{ display: inline-block;  position: absolute;right:0;top:50%;-webkit-transform: translateY(-50%);transform: translateY(-50%);line-height: normal !important;}
+        .welfare_download_a a.get_welfare, .welfare_download_a a.have_getten,.welfare_download_a a.have_no_leavings{  background-color: #6fbdf4;  color: #fff;  padding: 5px 10px;  border-radius: 5px;  line-height: 20px;  height: 32px;  display: inline-block;  width: 78px;  }
+        .welfare_download_a a.have_getten{  background-color: #bbb;   }
+        .welfare_download_a a.have_no_leavings{  background-color: #bbb;   }
+        .load-more{ line-height: 25px; display: none}
+        .integral_num{font-size:20px;position: absolute;right:0;top:10px;}
+        .game_name,.gift_name,.gift_num{float:left;font-size:14px;text-overflow: ellipsis;  white-space: nowrap;  overflow: hidden;}
+        .game_name{width:25%;}
+        .gift_name{width: 40%;padding:0 5px; }
+        .game_name,.gift_name{text-align: left}
+        .gift_num{width:35%;}
+        .gift_num p{font-size:14px;color:#1ea4f2}
+        .btnBack{display: inline-block;  font-size: 14px;  background-color: #1ea4f2;  color: #fff;  width: 70%;
+            border-radius: 5px;  line-height: 34px;position: fixed;left:50%;bottom:5px;-webkit-transform: translateX(-50%)}
+        /*.bottom-nav{background-color: transparent;border: 0;}*/
+    </style>
+</head>
+<body>
+<div class="bottom-nav">
+    <div class="publish"><a href="javascript:;" onclick="window.history.go(-1)">返回上一页</a></div>
+</div>
+<div class="all_content">
+    <div class="q_layout">
+        <div class="gift_tab flex-box">
+            <h2 class="integral_record activity" onclick="change_topic('integral_record')">积分记录</h2>
+            <h2 class="gift_record" onclick="change_topic('gift_record')">礼包记录</h2>
+            <i class="vertical_line under_line"></i>
+        </div>
+        <div class="integral_box">
+            <div class="second-section section">
+                <div class="integral">我的积分：<span class="blue">{$plat_credit}</span></div>
+            </div>
+            <ul class="welfare_list" id="integral_content">
+                <!--# foreach($credit_list['data'] as $key=>$value){ #-->
+                <li>
+                    <div class="welfare_detail clearfix">
+                        <h5>{$value['logname']}</h5>
+                        <p class="welfare_detail_desc">{$value['created_time']}</p>
+                        <!--# if($value['affect'] < 0){ #-->
+                            <span class="integral_num red">{$value['affect']}</span>
+                        <!--# } else{ #-->
+                            <span class="integral_num blue">+{$value['affect']}</span>
+                        <!--# } #-->
+                        
+                    </div>
+                </li>
+                <!--# } #-->
+            </ul>
+        </div>
+        <div class="gift_box hidden">
+            <ul class="welfare_list" id="gift_content">
+                <!--# foreach($gift_list['data'] as $key=>$value){ #-->
+                <li>
+                    <div class="game_name">{$value['game_name']|html}</div>
+                    <div class="gift_name">{$value['gift_name']|html}</div>
+                    <div class="gift_num"><p>{$value['gift_code']}</p></div>
+                </li>
+                <!--# } #-->
+            </ul>
+        </div>
+        <div class="load-more">加载更多内容</div>
+    </div>
+</div>
+<script src="{@theme:site.wap.js}/jquery.min.js"></script>
+<script src="{@theme:site.wap.js}/community.js"></script>
+<script>
+    var loadMore = false;       //是否到底
+    var loadGift = true;     //礼包判断是否可以加载
+    var oGiftId = "{$gift_list['current_id']}";     //礼包最后加载的id
+    var loadIntegral = true;     //积分判断是否可以加载
+    var IntegralPage = "{$credit_list['page']}";     //积分页码
+
+
+    $(".rec_gift_mask").on("touchmove",function(e){
+        e.preventDefault()
+    })
+
+    /*切换“积分记录”和“礼包记录*/
+    var integral_box = $('.integral_box');
+    var gift_box = $('.gift_box');
+    function change_topic(className) {
+        var obj = $('.'+className)
+        obj.parents('.gift_tab').children('h2').each(function(index, el) {
+            $(this).removeClass('activity')
+        });
+        obj.addClass('activity');
+
+        if (className == 'integral_record') {
+            gift_box.addClass('hidden')
+            integral_box.removeClass('hidden')
+        }else{
+            integral_box.addClass('hidden')
+            gift_box.removeClass('hidden')
+        }
+    }
+
+    var load_type = "{$load_type}";     //页面加载类型
+    if(load_type == 'gift'){
+        change_topic('gift_record');
+    }
+
+
+    var startX = 0,startY = 0,endX = 0, endY = 0,distanceX = 0,distanceY = 0;
+    $('.all_content').bind('touchstart',function(e){
+        startX = e.originalEvent.changedTouches[0].pageX;
+        startY = e.originalEvent.changedTouches[0].pageY;
+    });
+    $('.all_content').bind('touchmove',function(e){
+        endX = e.originalEvent.changedTouches[0].pageX;
+        endY = e.originalEvent.changedTouches[0].pageY;
+        //获取滑动距离
+        distanceX = endX-startX;
+        distanceY = endY-startY;
+
+        // 获取屏幕滚动的高度/偏移量
+        var scrollH = $('.all_content').scrollTop();
+
+        if(Math.abs(distanceX)>Math.abs(distanceY) && distanceX>0){
+
+        }else if(Math.abs(distanceX)>Math.abs(distanceY) && distanceX<0){
+
+        }else if(Math.abs(distanceX)<Math.abs(distanceY) && distanceY<0){
+            //拉到底部加载新帖子
+            var scrollHeight = $('.all_content').prop('scrollHeight');
+            var clientHeight = $(document).height();
+
+            if(!gift_box.hasClass('hidden')){
+                if(scrollHeight <= clientHeight+scrollH && loadGift){
+                    $('.load-more').show();
+                    loadMore = true;
+                }
+            } else if(!integral_box.hasClass('hidden')){
+                if(scrollHeight <= clientHeight+scrollH && loadIntegral){
+                    $('.load-more').show();
+                    loadMore = true;
+                }
+            }
+        }
+    });
+    $('body').bind('touchend',function(e){
+        if(loadMore){
+            $('.load-more').hide();
+            loadMore = false;
+            if(!gift_box.hasClass('hidden')){
+                loadData('gift');
+            } else if(!integral_box.hasClass('hidden')){
+                loadData('integral');
+            }
+        }
+    });
+
+    /**
+     * 加载数据
+     * @param  {[string]} type [加载类型]
+     * @return {[type]}      [description]
+     */
+    function loadData(type){
+        if(type == 'integral' && loadIntegral){
+            loadIntegral = false;
+            IntegralPage++;
+            //var url = 'http://bbs.test.q-dazzle.com/index.php?m=wap&c=OneGame&fid=5&page=' + loadIntegralPage + '&ajax=ajax';
+            var url = 'index.php?m=wap&c=Record&a=ajaxRun&ajax=ajax&type=credit&page='+IntegralPage;
+
+            var loadtf = ajaxData(url, integral_box.children('ul'),type);
+            if(loadtf == 'loadNext'){
+                setTimeout(function(){
+                    loadIntegral = true;
+                }, 1000);
+            }
+        } else if(type == 'gift' && loadGift){
+            loadGift = false;
+            //var url = 'http://bbs.test.q-dazzle.com/index.php?m=wap&c=OneGame&fid=5&page=' + loadGiftPage + '&ajax=ajax&orderby=postdate';
+            var url = 'index.php?m=wap&c=Record&a=ajaxRun&ajax=ajax&type=gift&current_id='+oGiftId;
+
+            var loadtf = ajaxData(url, gift_box.children('ul'),type);
+            if(loadtf == 'loadNext'){
+                setTimeout(function(){
+                    loadGift = true;
+                }, 1000);
+            }
+        }
+    }
+
+    /**
+     * 将数据放入dom
+     * @param  {[string]} loadUrl  [请求url]
+     * @param  {[obj]} loadObj  [加载对象]
+     * @param  {[string]} type  [加载类型]
+     * @return {[string]}          [判断是否还可以加载]
+     */
+    function ajaxData(loadUrl, loadObj,type){
+        var loadtf = 'loadNext';
+        $.ajax({
+            url:loadUrl,
+            type:'GET',
+            async:false,
+            success:function(data){
+                data = eval('('+data+')');
+
+                var code = data['code'];        //返回码
+                var is_bottom = data['is_bottom'];      //是否最后
+                var current_id = data['current_id'];        //最后加载的id
+                var list = data['data'];        //数据
+
+                //没有加载内容
+                if(code != 1){
+                    //加载的是礼包记录
+                    if(current_id == 0 && type == 'gift'){
+                        loadObj.append('<li><div class="topic-title t_center">暂无礼包记录！</div></li>');
+                    } else if(type == 'integral'){
+                        loadObj.append('<li><div class="topic-title t_center">暂无积分记录！</div></li>');
+                    } else{
+                        loadObj.append('<div class="uncontent gray-font">已显示全部内容</div>');
+                    }
+
+                    loadtf = 'loadOut';
+                    return loadtf;
+                }
+
+                if(type == 'integral'){
+                    for(var i = 0; i < list.length; i++) {
+                        console.log(1);
+                        var temp = '<li>';
+                            temp += '<div class="welfare_detail clearfix">';
+                            temp += '<h5>'+list[i]['logname']+'</h5>';
+                            temp += '<p class="welfare_detail_desc">'+list[i]['created_time']+'</p>';
+                            if(list[i]['affect'] < 0){
+                                temp += '<span class="integral_num red">'+list[i]['affect']+'</span>';
+                            } else{
+                                temp += '<span class="integral_num blue">+'+list[i]['affect']+'</span>';
+                            }
+                            temp += '</div>';
+                            temp += '</li>';
+                            loadObj.append(temp);
+                    }
+                } else{
+                    oGiftId = current_id;
+                    for(var i = 0; i < list.length; i++) {
+                        var temp = '<li>';
+                            temp += '<div class="game_name">'+list[i]['game_name']+'</div>';
+                            temp += '<div class="gift_name">'+list[i]['gift_name']+'</div>';
+                            temp += '<div class="gift_num"><p>'+list[i]['gift_code']+'</p></div>' ;
+                            temp += '</li>';
+                        loadObj.append(temp);
+                    }
+                }
+
+                //已经加载完
+                if(is_bottom == 1){
+                    //加载的是礼包记录
+                    if(oGiftId == 0 && type == 'gift'){
+                        loadObj.append('<li><div class="topic-title t_center">暂无礼包记录！</div></li>');
+                    } else if(type == 'integral'){
+                        loadObj.append('<li><div class="topic-title t_center">暂无积分记录！</div></li>');
+                    } else{
+                        loadObj.append('<div class="uncontent gray-font">已显示全部内容</div>');
+                    }
+
+                    loadtf = 'loadOut';
+                    return loadtf;
+                }
+            }
+        })
+        return loadtf;
+    }
+</script>
+</body>
+</html>

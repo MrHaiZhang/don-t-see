@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <template source='TPL:common.head2' suffix='htm' />
+        
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default">
+        <link rel="stylesheet" href="{@theme:site.wap.css}/base.css"/>
+        <link rel="stylesheet" href="{@theme:site.wap.css}/community.css">
+        <script src="{@theme:site.wap.js}/jquery.min.js"></script>
+        <script src="{@theme:site.wap.js}/jquery.event.drag-1.5.min.js"></script>
+        <script src="{@theme:site.wap.js}/jquery.touchSlider.js"></script>
+        <script src="{@theme:site.wap.js}/common.js"></script>
+        <script src="{@theme:site.wap.js}/community.js"></script>
+        <style>
+        .title{font-size: 16px;color:#949494;line-height: 44px;}
+        h3{text-align:left;font-size: 16px;font-weight: 400;color:#000;}
+        .post_list li{border-bottom: 1px solid #e5e5e5;}
+        .post-text{text-align: left;color: #949494;}
+        .bottom_msg{    display: flex;justify-content: space-between;line-height: 30px;padding-bottom: 5px;color:#949494;}
+        .delete{display:inline-block;width:40px;}
+        .discuss-list li{padding:10px 14px; border-bottom: 1px solid #e5e5e5;}
+        .discuss-text{color:#333;padding-bottom: 10px;}
+        .data{color:#949494;}
+        .post-con{    background-color: #f2f2f2;padding:10px;}
+
+        .uncontent{ padding: 10px; background-color: #f2f2f2; }
+        .comment_con{padding:0;}
+
+        .load-more{ line-height: 25px; display: none; }
+        .head-pic img{ width: 100%; }
+        </style>
+    </head>
+    <body>
+    <!-- 加载中动图 -->
+    <!-- <div class="load-container load7"><div class="loader">Loading...</div></div> -->
+    <!-- 返回上一页 -->
+    <div class="bottom-nav">
+            <div class="publish"><a href="{@url:}index.php?m=wap&c=UserCenter&fid={$fid}">返回上一页</a></div>
+    </div>
+    <div class="all_content ">
+        <div class="q_layout">
+            <div class="section">
+                <h1 class="title">我的评论</h1>
+            </div>
+            
+            <!--# if(count($posts) > 0) { #-->
+            <div class="section comment_con">
+                <ul class="discuss-list">
+                    <!--# foreach ($posts as $key => $read) { #-->
+                    <li><a href="{@url:}index.php?m=wap&c=ForumData&tid={$read['tid']}&post_anchor=post-id-{$read['post_id']}">
+                        <div class="head-pic"><img src="{$read['created_userimg']}" alt=""></div>
+                        <div class="discuss-con">
+                            <div class="discuss-user">
+                                <p class="user-name-18">{$read['created_username']|html}</p>
+                                <div class="data">{$read['created_time']}</div>
+                            </div>
+                            <div class="discuss-text">{$read['content']|html}</div>
+                            <div class="clr"></div>
+                            <div class="post-con">
+                                <!--# if($read['rp_username']){ #-->
+                                <div style="text-align: left;border-bottom: 1px solid #e5e5e5;padding-bottom: 10px;font-size: 14px;"><b style="font-weight: 400;font-size: 14px;">{$read['rp_username']|html}</b>：{$read['rp_content']|html}</div>
+                                <!--# } #-->
+                                <h3 style=" padding-top: 5px;">{$read['threadSubject']|html}</h3>
+                                <div class="post-text post_text_size show_2_line">{$read['threadContent']|html}</div>
+                            </div>
+                             
+                           </div>
+                    </a></li>
+                    <!--# } #-->
+                </ul>
+            </div>
+            <!--# } else{ #-->
+                <div class="uncontent">已显示全部内容</div>
+            <!--# } #-->
+            <div class="load-more">加载更多内容</div>
+            <div style="height: 44px;"></div>
+        </div>
+    </div>
+    <script src ="{@theme:site.wap.js}/community.js"></script>
+    <script>
+        // loadding($(".all_content"))
+     
+        var loadMore = false;       //是否到底
+        var loadNew = true;     //评论判断是否可以加载
+        var loadPage = {$page}?{$page}:1;     //评论当前页数
+
+        /*判断上下滑动：*/
+        $('body').bind('touchstart',function(e){
+            startX = e.originalEvent.changedTouches[0].pageX;
+            startY = e.originalEvent.changedTouches[0].pageY;
+        });
+        $("body").bind("touchmove",function(e){
+            //获取滑动屏幕时的X,Y
+            endX = e.originalEvent.changedTouches[0].pageX;
+            endY = e.originalEvent.changedTouches[0].pageY;
+            //获取滑动距离
+            distanceX = endX-startX;
+            distanceY = endY-startY;
+
+            //拉到底部加载新评论
+            if(Math.abs(distanceX)<Math.abs(distanceY) && distanceY<0){
+                
+                var scrollH = $('.all_content').scrollTop();       //获取屏幕滚动的高度/偏移量
+                var scrollHeight = $('.all_content').prop('scrollHeight');      //滚动条高度
+                var clientHeight = $(document).height();      //窗口高度
+
+                if(scrollHeight <= clientHeight+scrollH && loadNew){
+                    $('.load-more').show();
+                    loadMore = true;
+                }           
+            } else if(Math.abs(distanceX)<Math.abs(distanceY) && distanceY>0){
+                if(loadMore){
+                    $('.load-more').hide();
+                    $('.load-more').html('加载更多内容');
+                    loadMore = false;
+                }
+            }
+        }); 
+
+        $('body').bind('touchend',function(e){
+            if(loadMore && loadNew){
+                $('.load-more').hide();
+                $('.load-more').html('加载更多内容');
+                loadMore = false;
+
+                loadNew = false;
+                loadPage++;
+                var url = "{@url:}index.php?m=wap&c=MyArticle&a=reply&page="+loadPage+"&ajax=ajax";
+
+                var loadtf = ajaxData(loadPage, url);
+                if(loadtf == 'loadNext'){
+                    setTimeout(function(){
+                        loadNew = true;
+                    }, 1000);
+                }
+            }
+        }); 
+
+
+        /**
+        * 将数据放入dom
+        * @param  {[int]} loadPage [页码]
+        * @param  {[string]} loadUrl  [请求url]
+        * @return {[string]}          [判断是否还可以加载]
+        */
+        function ajaxData(loadPage, loadUrl){
+            var loadtf = 'loadNext';
+            $.ajax({
+                url:loadUrl,
+                type:'GET',
+                async:false,
+                success:function(data){
+                    //console.log(data);
+                    data = eval('('+data+')');
+                    //console.log(data);
+                    var page = data['page'];        //页码
+                    var total = data['total'];      //总数
+                    var list = data['list'];        //数据
+                    
+                    //已经加载完
+                    if(page < loadPage || list == ''){
+                        $('.discuss-list').parent().after('<div class="uncontent">已显示全部内容</div>');
+                        loadtf = 'loadOut';
+                        return loadtf;
+                    }
+
+                    for(var i = 0; i < list.length; i++) {
+                        // //图片
+                        // var attach = '';
+                        // if(list[i]['attach'] != ''){
+                        //     attach = '<div class="discuss-img-box">';
+                        //     for(var j = 0; j < list[i]['attach'].length; j++){
+                        //         attach += '<div class="discuss-img"><img src="'+list[i]['attach'][j]+'" alt=""></div>';
+                        //     }
+                        //     attach += '</div>';
+                        // } 
+
+                        $('.discuss-list').append('<li><a href="{@url:}index.php?m=wap&c=ForumData&tid='+list[i]['tid']+'&post_anchor=post-id-'+list[i]['post_id']+'">'+
+                            '<div class="head-pic"><img src="'+list[i]['created_userimg']+'" alt=""></div>'+
+                            '<div class="discuss-con">'+
+                                '<div class="discuss-user">'+
+                                    '<p class="user-name-18">'+list[i]['created_username']+'</p>'+
+                                    '<div class="data">'+list[i]['created_time']+'</div>'+
+                                '</div>'+
+                                '<div class="discuss-text">'+list[i]['content']+'</div>'+
+                                '<div class="clr"></div>'+
+                                '<div class="post-con">'+
+                                    '<h3>'+list[i]['threadSubject']+'</h3>'+
+                                    '<div class="post-text post_text_size show_2_line">'+list[i]['threadContent']+'</div>'+
+                                '</div>'+
+                            '</div>'+
+                        '</a></li>');
+                    }
+                }
+            })
+
+            return loadtf;
+        }
+    </script>
+    </body>
+</html>

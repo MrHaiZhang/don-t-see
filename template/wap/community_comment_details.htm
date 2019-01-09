@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <template source='TPL:common.head2' suffix='htm' />
+        
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+		<meta name="format-detection" content="telephone=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="default">
+		<link rel="stylesheet" href="{@theme:site.wap.css}/base.css"/>
+		<link rel="stylesheet" href="{@theme:site.wap.css}/community.css">
+		<script src="{@theme:site.wap.js}/jquery.min.js"></script>
+		<script src="{@theme:site.wap.js}/jquery.event.drag-1.5.min.js"></script>
+		<script src="{@theme:site.wap.js}/jquery.touchSlider.js"></script>
+		<script src="{@theme:site.wap.js}/common.js"></script>
+		<style>
+		body{background-color:#fff;}
+        div{ text-align: left; font-size: 16px; }
+		.comment-details{margin-left: 60px;}
+		.comment-details li p{text-align:left;    line-height: 23px;display: inline-block;}
+		.comment-details li span,.comment-details li i,.comment-details li div{font-size: 16px;}
+		.comment-details li span{color:#949494;}
+
+		.discuss-img-img{    display: inline-block; vertical-align: middle;width: 100px;height: 100px;margin: 5px;border: 1px solid #e5e5e5;overflow: hidden;box-sizing: content-box;}
+		.q_layout{margin-bottom: 44px;}
+        .comment-con{background-color:#f2f2f2;margin:0; padding-left: 10px;margin-right: 14px;}
+        .comment-con div{ text-align: left; }
+        .discuss-text img{display:block;max-width: 60% !important;}
+        .text img{display:block;max-width: 60% !important;}
+		</style>
+    </head>
+    <body>
+    <div class="all_content">
+    <div class="bottom-nav">
+        <div class="back-icon"><a href="{@url:}index.php?m=wap&c=ForumData&tid={$tid}&anchor={$anchor}&post_anchor={$post_anchor}"></a></div>
+        <div class="publish"><a href="#" onClick="toSecondPost({$readdb['tid']}, {$readdb['pid']})">发布评论</a></div>
+        <!--# if($readdb['seachLike'] == 'inlike'){  #-->
+            <div class="like-btn liked"><a href="#"></a></div>
+        <!--# } else if($readdb['seachLike'] == 'mylike'){  #-->
+            <div class="like-btn"><a href="#"></a></div>
+        <!--# } else{ #-->
+            <div class="like-btn" onClick="addLike(1, {$pid})"><a href="#"></a></div>
+        <!--# } #-->
+    </div>
+    	<div class="q_layout">
+    	<!-- 查看图片的弹窗遮罩 -->
+        <div class="big-img-mask" style="margin-top: 0px;">
+            <div class="rec_tip">
+            </div>
+        </div>
+    		<div class="section" style="padding-top: 10px">
+    			<div class="head-pic">
+                <!--# if($readdb['headcheck'] == 1){ #-->
+                    <img src="{@Pw::getAvatar(0)}?{$time_v}"/>
+                <!--# } else{ #-->
+                    <img src="{@Pw::getAvatar($readdb['created_userid'])}?{$time_v}"/>
+                <!--# } #-->
+                </div>
+    			<div class="discuss-con" style="margin-bottom: 0px;">
+                    <div class="discuss-user">
+                        <p class="user-name user-name-18">{$readdb['created_username']|html}</p>
+                        <p class="user-floor">{$readdb['lou']}楼</p>
+                    </div>
+                    <div class="discuss-text">
+                        {$readdb['content']|html}
+                    </div>
+                    <div class="discuss-box">
+                        <div class="data">{@Pw::time2str($readdb['created_time'])}</div>
+                        <div class="fr">
+                            <!--# if($readdb['seachLike'] == 'inlike'){  #-->
+                                <div class="like-num liked-num"><span></span><i>{$readdb['like_count']}</i></div>
+                            <!--# } else if($readdb['seachLike'] == 'mylike'){  #-->
+                                <div class="like-num"><span></span><i>{$readdb['like_count']}</i></div>
+                            <!--# } else{ #-->
+                                <div class="like-num" onClick="addLike(2, {$readdb['pid']})"><span></span><i>{$readdb['like_count']}</i></div>
+                            <!--# } #-->
+                            <div class="discuss-num" onClick="toSecondPost({$readdb['tid']}, {$readdb['pid']})"><span></span><i>{$readdb['replies']}</i></div>
+                        </div>
+                    </div>
+                </div>
+    		</div>
+    		<!-- 二次评论 -->
+    		
+            <div class="comment-details">
+                <!--# if($readdb['replies_list']){ #--> 
+                    <ul>
+                    <!--# foreach ($readdb['replies_list'] as $kk => $rr) { #--> 
+                        <li class="comment-con" onClick="reSecondPost({$tid}, {$rr['rpid']}, {$rr['pid']})">
+                        	<div>
+	                        	<span class="user-name">{$rr['created_username']|html}</span>
+								<span class="text">{$rr['content']|html}</span>
+							</div>
+                        </li>
+                    <!--# } #-->  
+                    </ul>
+                <!--# } else{ #-->
+                	<br/>暂时没有人回复哦！<br/>
+                	快来回复两句吧~<br/><br/>
+                <!--# } #-->
+            </div>
+        
+    	</div>
+    </div>
+	<script>
+
+    var loadNew = true;     //评论判断是否可以加载
+    var loadPage = {$page}?{$page}:1;     //评论当前页数
+
+    /*判断上下滑动：*/
+    $('body').bind('touchstart',function(e){
+        startX = e.originalEvent.changedTouches[0].pageX;
+        startY = e.originalEvent.changedTouches[0].pageY;
+    });
+    $("body").bind("touchmove",function(e){
+        //获取滑动屏幕时的X,Y
+        endX = e.originalEvent.changedTouches[0].pageX;
+        endY = e.originalEvent.changedTouches[0].pageY;
+        //获取滑动距离
+        distanceX = endX-startX;
+        distanceY = endY-startY;
+
+        //拉到底部加载新评论
+        if(Math.abs(distanceX)<Math.abs(distanceY) && distanceY<0){
+            
+            var scrollH = $('.all_content').scrollTop();       //获取屏幕滚动的高度/偏移量
+            var scrollHeight = $('.all_content').prop('scrollHeight');      //滚动条高度
+            var clientHeight = $(document).height();      //窗口高度
+
+            if(scrollHeight == clientHeight+scrollH && loadNew){
+                loadNew = false;
+                loadPage++;
+                var url = "{@url:}index.php?m=wap&c=ForumData&a=postDetail&tid={$tid}&pid={$pid}&page="+loadPage+"&ajax=ajax";
+
+                var loadtf = ajaxData(loadPage, url, $('.comment-details ul'));
+                if(loadtf == 'loadNext'){
+                    setTimeout(function(){
+                        loadNew = true;
+                    }, 1000);
+                }
+            }           
+        }
+    });
+
+    /**
+    * 将数据放入dom
+    * @param  {[int]} loadPage [页码]
+    * @param  {[string]} loadUrl  [请求url]
+    * @param  {[obj]} loadObj  [加载对象]
+    * @return {[string]}          [判断是否还可以加载]
+    */
+    function ajaxData(loadPage, loadUrl, loadObj){
+        var loadtf = 'loadNext';
+        $.ajax({
+            url:loadUrl,
+            type:'GET',
+            async:false,
+            success:function(data){
+                //console.log(data);
+                data = eval('('+data+')');
+                //console.log(data);
+                var page = data['page'];        //页码
+                var total = data['total'];      //总数
+                var list = data['list'];        //数据
+                
+                //已经加载完
+                if(page < loadPage || list == ''){
+                    //loadObj.parents('.fifth-section').after('<div class="uncontent">已显示全部内容</div>');
+                    //loadObj.append('<li class="comment-con">已显示全部内容</li>');
+                    loadtf = 'loadOut';
+                    return loadtf;
+                }
+                
+                for(var i = 0; i < list.length; i++) {                    
+                    loadObj.append('<li class="comment-con" onClick="reSecondPost('+{$tid}+', '+list[i]['rpid']+', '+list[i]['pid']+')">'+
+                            '<div>'+
+                                '<span class="user-name">'+list[i]['created_username']+'</span>'+
+                                '<span class="text">'+list[i]['content']+'</span>'+
+                            '</div>'+
+                        '</li>');
+                }
+
+
+                $(".comment-details li").each(function(index, el) {
+                // console.log($(this).children('p').height())
+                if ($(this).children('div').height()>25) {
+                    $(this).children('div').children('.colon').after('<br>')
+                    var liWidth = $(this).width()
+                    var pWidth = $(this).children('div').width()
+                    console.log("li:"+$(this).width())
+                    console.log("div:"+$(this).children('div').width())
+                    if (pWidth==liWidth||pWidth>liWidth) {
+                        //$(this).children('p').children('.user-name:first').after('<br>')
+                    }
+                }   
+                
+            });
+            }
+        })
+
+        return loadtf;
+    }
+
+
+	$(function() {
+		/*用户名超过一行时：评论内容换行*/
+		setTimeout(function() {
+			$(".comment-details li").each(function(index, el) {
+				// console.log($(this).children('p').height())
+				if ($(this).children('p').height()>25) {
+					$(this).children('p').children('.colon').after('<br>')
+					var liWidth = $(this).width()
+					var pWidth = $(this).children('p').width()
+					console.log("li:"+$(this).width())
+					console.log("p:"+$(this).children('p').width())
+					if (pWidth==liWidth||pWidth>liWidth) {
+						//$(this).children('p').children('.user-name:first').after('<br>')
+					}
+				}	
+				
+			});
+
+		},50)
+	});
+
+	// $(".comment-con p").click(function(event) {
+	// 	/*点击评论的内容，进入新增二次评论页面，回复该评论*/
+	// 	window.location.href='../../view/Templates/community_new_second_comment.html';
+	// });
+		
+	$(".publish-btn").click(function(event) {
+		/* 发布评论 */
+		commentText = $(".comment-text").html() //获取了评论文本框的文字内容
+		console.log(commentText)
+		if (commentText>1) {
+			window.location.href='../../view/Templates/community_game_post.html';
+		}else{
+			alert("请输入2个以上文字")
+		}
+	});
+
+
+
+	/**
+     * 添加喜欢
+     * @param {[int]} type [喜欢类型]
+     * @param {[int]} id   [相关id]
+     */
+    function addLike(type, id){
+        $.ajax({
+            url:"{@url:}index.php?m=wap&c=ForumData&a=doLike",
+            type:'POST',
+            data:{
+                csrf_token:"{$csrf_token}",
+                typeid:type,
+                fromid:id,
+            },
+            success:function(data){
+                console.log(data);
+                if(data == 'login'){
+                    window.location.href = "{@url:}index.php?m=wap&c=Login";
+                } else if(data == 'inlike'){
+                    alert('已经点赞过'); 
+                } else if(data == 'myself'){
+                    alert('这是你自己发的'); 
+                } else if(data == 'success'){
+                    var liek_count = $('.like-num').find('i').html();
+                    $('.like-num').find('i').html(liek_count*1+1);
+                    $('.like-num').addClass('liked-num');
+                    $('.like-btn').addClass('liked');
+                }
+                    
+            }
+        })
+    }
+
+    //二次评论
+    function toSecondPost(tid, pid){
+        var stop_action = '{$stop_action}';
+        if(stop_action == 1){
+            alert('论坛功能正在升级，暂时关闭评论功能');
+        } else{
+            window.location.href = "{@url:}index.php?m=wap&c=ForumNew&a=reply&tid="+tid+"&pid="+pid;
+        }
+        
+    }
+
+    //回复二次评论
+    function reSecondPost(tid, pid, replyid){
+        var stop_action = '{$stop_action}';
+        if(stop_action == 1){
+            alert('论坛功能正在升级，暂时关闭评论功能');
+        } else{
+            window.location.href = "{@url:}index.php?m=wap&c=ForumNew&a=reply&tid="+tid+"&pid="+pid+"&replyid="+replyid;
+        }
+        
+    }
+
+	</script>
+	<script src="{@theme:site.wap.js}/community.js"></script>
+    </body>
+</html>

@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+<head>
+<template source='TPL:admin.common.head' />
+</head>
+<body>
+<div class="wrap J_check_wrap">
+	<div class="nav">
+		<ul class="cc">
+			<li class="current"><a href="{@url:app/oculus/manage/run}">基本设置</a></li>
+		</ul>
+	</div>
+<div class="h_a">版权信息</div>
+	<div class="table_full">
+		<table width="100%">
+			<col class="th" />
+			<col width="400" />
+			<col />
+            <tr>
+				<th>运营</th>
+				<td>阿里巴巴反欺诈安全</td>
+				<td></td>
+			</tr>
+            <tr>
+				<th>官方网站</th>
+				<td><a href="https://help.aliyun.com/document_detail/28324.html" target="_blank">阿里滑动验证插件</a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<th><span style="color: red; "><strong>注意</strong></span></th>
+				<td>首次开启滑动验证，3分钟后才能生效</td>
+				<td></td>
+			</tr>
+		</table>
+	</div>
+	<form class="J_ajaxForm" data-role="list" action="{@url:app/oculus/manage/doRun}" method="post">
+	<div class="h_a">设置</div>
+	<div class="table_full">
+		<table width="100%">
+			<col class="th" />
+			<col width="400" />
+			<col />
+            <tr>
+				<th>注册</th>
+				<td>
+					<ul class="switch_list cc">
+						<li><label><input type="radio" name="is_reg_open" value="1" {@Pw::ifcheck($conf['is_reg_open'] == 1)}><span>开启</span></label></li>
+						<li><label><input type="radio" name="is_reg_open" value="0" {@Pw::ifcheck($conf['is_reg_open'] == 0)}><span>关闭</span></label></li>
+					</ul>
+				</td>
+				<td>&nbsp;</td>
+				<td><div class="fun_tips">滑动验证开关</div></td>
+			</tr>
+			<tr>
+				<th>登录</th>
+				<td>
+					<ul class="switch_list cc">
+						<li><label><input type="radio" name="is_login_open" value="1" {@Pw::ifcheck($conf['is_login_open'] == 1)}><span>开启</span></label></li>
+						<li><label><input type="radio" name="is_login_open" value="0" {@Pw::ifcheck($conf['is_login_open'] == 0)}><span>关闭</span></label></li>
+					</ul>
+				</td>
+				<td>&nbsp;</td>
+				<td><div class="fun_tips">滑动验证开关</div></td>
+			</tr>
+			<tr>
+				<th>发主题帖</th>
+				<td>
+					<ul class="switch_list cc">
+						<li><label><input type="radio" name="is_bbspost_open" value="1" {@Pw::ifcheck($conf['is_bbspost_open'] == 1)}><span>开启</span></label></li>
+						<li><label><input type="radio" name="is_bbspost_open" value="0" {@Pw::ifcheck($conf['is_bbspost_open'] == 0)}><span>关闭</span></label></li>
+					</ul>
+				</td>
+				<td>&nbsp;</td>
+				<td><div class="fun_tips">滑动验证开关</div></td>
+			</tr>
+		</table>
+	</div>
+	<div class="btn_wrap">
+		<div class="btn_wrap_pd">
+			<button class="btn btn_submit J_ajax_submit_btn" type="submit">提交</button>
+		</div>
+	</div>
+	</form>
+</div>
+<template source='TPL:admin.common.footer' />
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <template source='TPL:common.head2' suffix='htm' />
+        
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+		<meta name="format-detection" content="telephone=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="default">
+        <link rel="stylesheet" href="{@theme:site.wap.js}/introjs.css">
+        <link rel="stylesheet" href="{@theme:site.wap.js}/introjs-rtl.css">
+        <link rel="stylesheet" href="{@theme:site.wap.css}/base.css"/>
+		<link rel="stylesheet" href="{@theme:site.wap.css}/community.css">
+		<link rel="stylesheet" href="{@theme:site.wap.css}/community_user_center.css">
+		<script src="{@theme:site.wap.js}/jquery.min.js"></script>
+		<script src="{@theme:site.wap.js}/intro.js"></script>
+		<script src="{@theme:site.wap.js}/jquery.event.drag-1.5.min.js"></script>
+		<script src="{@theme:site.wap.js}/jquery.touchSlider.js"></script>
+		<script src="{@theme:site.wap.js}/community.js"></script>
+		<script src="{@theme:site.wap.js}/common.js"></script>
+		<style>
+			.rec_tip .user-head-box.showGuide{    padding: 10px 24px 10px 14px;}
+		</style>
+    </head>
+    <body>
+    <div class="all_content">
+
+    	<div class="q_layout">
+    		<div class="section">
+    			<div class="user-head-box showGuide" data-step="1" data-intro="点击修改头像和昵称<br />让小伙伴更容易记住你吧~
+
+">
+	                <div class="head-pic"><img src="{@Pw::getAvatar($space->spaceUid,'big')}?{$time}" alt=""></div>
+	                <div class="user-des">
+                        <p class="name" style="font-size: 15px;margin-right: 2px;">{$space->spaceUser['username']}</p> <p class="name user-id">（ID：{$space->spaceUser['ident_id']}）</p> 
+                        <p class="lever-icon"><span class="level level1"></span></p>
+	                </div>
+	                <div class="change_btn">
+	                	<img src="{@theme:site.wap.images}/community/change.png" alt="">
+	                </div>
+	            </div>
+    		</div>
+    		<div class="section section1">
+    			<ul>
+	    			<li class="user-msg">
+	    				<span class="user-msg-img-wrap"><img src="{@theme:site.wap.images}/community/mes.png" alt=""></span>
+						<span class="msg_text">个人消息</span>
+						<i class="fr orange">{$unreadCount}</i>
+	    			</li>
+	    			<li class="acc-point">
+	    				<span class="acc-point-img-wrap"><img style="width: 32px;height:32px" src="{@theme:site.wap.images}/community/jifen.png" alt=""></span>
+						<span class="msg_text">个人积分</span>
+						<i class="fr qxblue">{$plat_credit}</i>
+	    			</li>
+	    		</ul>
+    			<!-- <div class="user-msg">
+    				<span class="user-msg-img-wrap"><img src="{@theme:site.wap.images}/community/mes.png" alt=""></span>
+					<span class="msg_text">个人消息</span>
+					<i class="fr orange">{$unreadCount}</i>
+    			</div> -->
+    		</div>
+    		<div class="section">
+    			<ul>
+    				<li class="ranking-list">
+    					<span class="user-msg-img-wrap"><img style="width: 32px;height:32px" src="{@theme:site.wap.images}/community/bangdan.png" alt=""></span>
+						<span class="msg_text">社区榜单</span>
+						<i class="fr qxblue"></i>
+    				</li>
+    			</ul>
+    		</div>
+    		<div class="section">
+    			<ul class="record">
+    				<li><span><img src="{@theme:site.wap.images}/community/jilu.png" alt=""></span><span class="msg_text">个人动态</span></li>
+    				<li><span class="msg_text">发帖纪录</span><i class="fr">{$space->spaceUser['thread_count']}</i></li>
+    				<li><span class="msg_text">评论纪录</span><i class="fr">{$space->spaceUser['post_count']}</i></li>
+    				<li><span class="msg_text">礼包领取纪录</span><i class="fr"></i></li>
+    			</ul>
+    		</div>
+    		<!-- <div class="section section1">
+    			<div class="user-msg t-center" onclick="logout()">
+    							退出登录
+    			</div>
+    		</div> -->
+    		<!-- 个人设置先屏蔽 -->
+    		<!-- <div class="section">
+    			<ul class="switch-list">
+    				<li><span class="user-msg-img-wrap"><img src="{@theme:site.wap.images}/community/setting.png" alt=""></span><span class="msg_text">个人设置</span></li>
+    				<li><span class="msg_text">显示VIP等级</span><span class="m-switch lg active" title=""><input type="checkbox" class="m-switch-input" value="on">	<span class="m-switch-helper"></span></span></li>
+    				<li><span class="msg_text">公开发帖纪录</span><span class="m-switch lg active" title=""><input type="checkbox" class="m-switch-input" value="on">	<span class="m-switch-helper"></span></span></li>
+    				<li><span class="msg_text">公开评论纪录</span><span class="m-switch lg active" title=""><input type="checkbox" class="m-switch-input" value="on">	<span class="m-switch-helper"></span></span></li>
+    				<li><span class="msg_text red">公开个人信息</span><span class="m-switch lg" title=""><input type="checkbox" class="m-switch-input" value="on">	<span class="m-switch-helper"></span></span></li>
+    				<li><span class="user-msg-img-wrap"><img src="{@theme:site.wap.images}/community/friends.png" alt=""></span><span class="msg_text red">个人交互</span></li>
+    				<li><span class="msg_text red">我的关注</span></li>
+    				<li><span class="msg_text red">我的粉丝</span></li>
+    				<li><span class="msg_text red">我的好友</span></li>
+    			</ul>
+    		</div> -->
+    	</div>
+    </div>
+    <div class="bottom-nav logout-nav">
+    	<div class="back-icon" style="position: absolute;left:5px;"><a href="{@url:}index.php?m=wap&c=OneGame&fid={$fid}"></a></div>
+    	<div class="publish"><a class="logout" href="javascript:;">退出登录</a></div>
+    </div>
+	<script>
+
+		$(".logout-nav a.logout").click(function(event) {
+		if ($("a.logout").hasClass('if_logout')) {
+			/*真的退出登录*/
+			logout()
+		}else{
+			$("a.logout").addClass('if_logout').html('<span style="float: left;      font-size: 14px;  margin-left: 10px;">确定</span>').prepend('<img style="display:inline-block;    background-color: #fff;border-radius: 30px; margin-top: 5px;float: left;margin-left: 35%;    width: 24px;" src="{@theme:site.wap.images}/community/right.png" alt="">')
+			// $("a.logout").addClass('if_logout').html('<img style="display:inline-block;  margin-left: 10px;   background-color: #fff;border-radius: 30px; margin-top: 2px;float: left;   width: 30px;" src="http://192.168.7.182/right.png" alt="">').prepend('<span style="float: left;   margin-left: 35%; ">确定</span>')
+			// $(".publish").prepend('<img style="display:inline-block;" src="http://192.168.7.182/right.png" alt="">')
+		}
+	});
+
+
+		$(function(){
+			/*执行新手引导*/
+        	if("{$frist_in}" == ''){
+			    newComerGuide($(".showGuide"));
+			}
+			// newComerGuide($(".showGuide"));
+			
+			setTimeout(function(){
+				// 输入文本框要是屏幕高度的一半
+				var screenH = window.screen.height;
+				var commentTextH = screenH/2-$(".comment-top").height()
+				// console.log(commentTextH)
+				$(".comment-text").height(commentTextH);
+				/*头像高度根据宽度自适应*/
+				$(".head-pic").height($(".head-pic").width())
+			},50);
+		});
+
+
+		/*通过开关控制是否公开*/
+		// $(".switch").parent('li').click(function(event) {
+		// 	var imgSrc = $(this).children('.switch').children('img')[0].src;
+		// 	var imgSrcLength = imgSrc.length;
+		// 	var src = imgSrc.substring(imgSrcLength-8,imgSrcLength-4)
+		// 	if (src=="open") {
+		// 		// 将开着的开关关闭
+		// 		var newSrc1 = imgSrc.substr(0,imgSrcLength-8)
+		// 		var newSrc = newSrc1+"close.png"
+		// 		$(this).children('.switch').children('img').attr('src', newSrc);
+		// 	}else{
+		// 		/*将关着的开关打开*/
+		// 		var newSrc1 = imgSrc.substr(0,imgSrcLength-9)
+		// 		var newSrc = newSrc1+"open.png"
+		// 		$(this).children('.switch').children('img').attr('src', newSrc);
+		// 	}
+		// });
+		
+		/*通过开关控制是否公开*/
+		$(".switch-list li").each(function(index, el) {
+			$(this).click(function(event) {
+				if ($(this).children('.m-switch.lg').hasClass('active')) {
+					$(this).children('.m-switch.lg').removeClass('active')
+				}else{
+					$(this).children('.m-switch.lg').addClass('active')				
+				}
+			});
+		});
+
+		/*点击编辑用户信息*/
+		$(".user-head-box").click(function(event) {
+			window.location.href = "{@url:}index.php?m=wap&c=UserEdit&fid={$fid}"
+		});
+
+		/*进入发帖纪录*/
+		$(".record li:gt(0)").click(function(event) {
+			window.location.href = "{@url:}index.php?m=wap&c=MyArticle&fid={$fid}"
+		});
+
+		/*进入回复纪录*/
+		$(".record li:gt(1)").click(function(event) {
+			window.location.href = "{@url:}index.php?m=wap&c=MyArticle&a=reply&fid={$fid}"
+		});
+
+		/*进入礼包领取纪录*/
+		$(".record li:gt(2)").click(function(event) {
+			window.location.href = "{@url:}index.php?m=wap&c=Record&load_type=gift"
+		});
+
+		/*进入用户消息中心*/
+		$(".user-msg").click(function(event) {
+			window.location.href = "{@url:}index.php?m=wap&c=MyNotice&fid={$fid}"
+		});
+
+		/*进入个人积分*/
+		$(".acc-point").click(function(event) {
+			window.location.href="{@url:}index.php?m=wap&c=UserTask&fid={$fid}"
+		});
+
+		/*进入榜单*/
+		$(".ranking-list").click(function(event) {
+			window.location.href="{@url:}index.php?m=wap&c=Billboard&fid={$fid}"
+		});
+		function logout(){
+			window.location.href = "{@url:}index.php?m=wap&c=Login&a=logout";
+		}
+	</script>
+
+    </body>
+</html>

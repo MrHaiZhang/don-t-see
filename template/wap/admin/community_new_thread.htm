@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <template source='TPL:admin.common.head' />
+
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+		<meta name="format-detection" content="telephone=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="default">
+		<link rel="stylesheet" href="{@theme:site.wap.css}/dev/base.css"/>
+		<link rel="stylesheet" href="{@theme:site.wap.css}/dev/community.css">
+
+		<script src="{@theme:site.wap.js}/jquery.event.drag-1.5.min.js"></script>
+		<script src="{@theme:site.wap.js}/jquery.touchSlider.js"></script>
+		<script src="{@theme:site.wap.js}/common.js"></script>
+		<style>
+			body{background-color:#fff; height: 90%;}
+			.q_layout .section textarea{text-align:left;width: 100%; padding-top: 10px;font-size: 16px;}
+			::-webkit-input-placeholder{font-size: 16px;color:#949494;}
+			:-moz-placeholder{font-size: 16px;color:#949494;   }
+			::-moz-placeholder{font-size: 16px;color:#949494; }
+			:-ms-placeholder{font-size: 16px;color:#949494;  }
+			.publish-tab{display:flex;justify-content:space-between;    padding-top: 2px;    border-top: 1px solid #eee;border-bottom: 1px solid #eee;}
+			.publish-btn a{display: inline-block;font-size: 14px;background-color: #1ea4f2;color: #fff;    border-radius: 5px;line-height: 34px;    padding: 0 10px;}
+			input{border:none; text-align: left;}
+			.topic_title{    width: 100%;text-align: left;line-height: 35px;}
+
+			/*日期选择样式*/
+			.input{ height: 28px; }
+			#calroot{ z-index: 999 !important; }
+			#calhead{ padding: unset !important;  }
+			
+			/*编辑器样式*/
+			/*#edui1_toolbarbox{ display: none; }*/
+			#container .edui-default{ border: none; }
+			.comment-text{border-top: 1px solid #e0e0e0; margin-bottom: 100px; }
+			.comment-tit{ width: 100%; padding: 0 8px; }
+			.view p { color: #333;}
+			.topic_title{ font-size: 18px;}
+
+			.admin_content .all_content{ width: 500px; margin: auto; position: inherit; }
+			.admin_config{ margin: 20px; }
+			.activity_content{ margin: 20px auto; text-align: left; width: 500px; display: none; }
+			.activity_content div{ text-align: left; }
+			select{ height: 28px; }
+		</style>
+    </head>
+    <body>
+	
+	<div class="admin_content">
+
+		<div class="admin_config">
+			发布版块：<select name="fid">
+			<!--# foreach ($list as $_id => $_item){ #-->
+				<!--# if($_item['parentid'] != 0 && $_item['isshow'] == 1) { #-->
+				<option value="{$_item['fid']}">{$_item['name']|html}</option>
+				<!--# }#-->
+			<!--# }#-->
+			</select>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			帖子类型：<select name="type">
+				<option value="0">普通帖子</option>
+				<option value="1">活动帖子</option>
+			</select>
+		</div>
+		
+		<!-- 活动帖子配置 -->
+		<div class="activity_content">
+			<div>
+				<label>活动时间：</label>
+				<input type="text" name="activity_time_start" class="input length_2 mr5 J_date" value=""><span class="mr5">至</span><input type="text" name="activity_time_end" class="input length_2 J_date" value="">
+				<br/><br/>
+			</div>
+			<div>
+				<label style="color: red;">活动结束时间为所需结束的后一天，例如：12月9号结束，需选择12月10号</label>
+				<br/><br/>
+			</div>
+			<div>
+				<label>参与规则：</label>
+				<select name="activity_type">
+					<option value="0">回复</option>
+					<option value="1">发帖</option>
+					<option value="2">链接</option>
+				</select>
+				<br/><br/>
+			</div>
+			<div class="content_con reply_con thread_con">
+				<label>内容前缀：</label>
+					<input type="text" name="activity_prefix" class="input length_5">
+				<br/><br/>
+			</div>
+			<div class="content_con reply_con">
+				<label>内容屏蔽：</label>
+				<input type="checkbox" name="activity_content_screen" value="1">
+				<br/><br/>
+			</div>
+			<div class="content_con reply_con">
+				<label>回帖限制：</label>
+				<input type="number" name="activity_return_num" class="input length_5" value="0">
+				<br/><br/>
+			</div>
+			<div class="content_con return_con">
+				<label>跳转链接：</label>
+				<input type="text" name="activity_url" class="input length_5" value="">
+				<br/><br/>
+			</div>
+		</div>
+
+		<div class="all_content">
+	    	<div class="q_layout">
+	    		<div class="section">
+	    			<!-- 新建话题 -->
+	    			<div class="new_topic">
+	    				<div class="comment-tit">
+	    					<input class="topic_title" type="text" name="atc_title" placeholder="文章标题">
+	    				</div>
+	    				<div class="comment-text">
+		    				<!-- 加载编辑器的容器 -->
+						    <script id="container" name="atc_content" type="text/plain"><p style="color: #949494;">文章内容（至少6个汉字）</p></script>
+					    </div>
+					    <!-- <textarea class="" name="atc_content" id="" placeholder="文章内容（至少6个汉字）"></textarea> -->
+		    			<div class="publish-tab">
+		    				<div class="publish-img"><img src="{@theme:site.wap.images}/community/pic.png" alt=""></div>
+		    				<div class="publish-btn">
+		    					<a href="javascript:;" onclick="ajaxForum()">发布话题</a>
+		    				</div>
+		    			</div>
+	    			</div>
+	    		</div>
+	    	</div>
+	    </div>
+
+	</div>
+    
+	
+
+	<!-- 配置文件 -->
+    <script type="text/javascript" src="{@theme:site.wap.js}/utf8-php/ueditor.config.js"></script>
+    <!-- 编辑器源码文件 -->
+    <script type="text/javascript" src="{@theme:site.wap.js}/utf8-php/ueditor.all.js"></script>
+	<script>
+		var ue = null;
+		$(function(){
+			// 输入文本框要是屏幕高度的一半
+			setTimeout(function(){
+				// alert(window.screen.height)
+				var screenH = window.screen.height;
+				if ($("new_topic").hasClass('hidden')) {
+					commentTextH = screenH/2.5
+				}else{
+					commentTextH = screenH/2.5-$(".topic_title").height()
+				}
+				$(".comment-text").height(commentTextH)
+
+				/*实例化编辑器*/
+				ue = UE.getEditor('container',{
+		        	/*toolbars: [
+					    ['simpleupload']
+					],*/
+					initialFrameWidth : '100%',
+					initialFrameHeight : commentTextH-50,
+					elementPathEnabled : false,		//元素路径
+					wordCount : false,		//字数统计
+					autoHeightEnabled : false,		//自动长高
+		        });
+
+		        ue.addListener("focus",function(){
+		        	var ue_plain = ue.getPlainTxt();
+		        	//ue.getPlainTxt()最后多了一个字符
+					if(ue_plain.substr(0, ue_plain.length-1) == '文章内容（至少6个汉字）'){
+						ue.setContent('');
+					}
+				})
+
+				ue.addListener("blur",function(){
+					if(ue.getContent() == ''){
+						ue.setContent('<p style="color: #949494;">文章内容（至少6个汉字）</p>');
+					}
+				})
+				
+			},50);
+		});
+
+		$(".publish-img").click(function(event) {
+			/* 点击ueditor图片上传按钮，选取图片 */
+			$('#edui148_body').find('iframe').eq(0).contents().find('input[type="file"]').click();
+		});
+
+		$('select[name="type"]').change(function(){
+			if($(this).val() == 1){
+				$('.activity_content').show();
+				$('select[name="activity_type"]').change();
+			} else{
+				$('.activity_content').hide();
+			}
+		})
+
+		$('select[name="activity_type"]').change(function(){
+			if($(this).val() == 0){
+				$('.content_con').each(function(){
+					$(this).hide()
+				});
+				$('.reply_con').each(function(){
+					$(this).show()
+				});
+			} else if($(this).val() == 1){
+				$('.content_con').each(function(){
+					$(this).hide()
+				});
+				$('.thread_con').each(function(){
+					$(this).show()
+				});
+			} else if($(this).val() == 2){
+				$('.content_con').each(function(){
+					$(this).hide()
+				});
+				$('.return_con').each(function(){
+					$(this).show()
+				});
+			}
+		})
+
+
+		//提交话题内容
+		function ajaxForum(){
+			var fid = $('select[name="fid"]').val();
+			var atc_title = $('input[name="atc_title"]').val();
+			var atc_content = ue.getContent();
+
+			var type = $('select[name="type"]').val();
+			var activity_time_start = $('input[name="activity_time_start"]').val();
+			var activity_time_end = $('input[name="activity_time_end"]').val();
+			var activity_prefix = $('input[name="activity_prefix"]').val();
+			var activity_type = $('select[name="activity_type"]').val();
+			var activity_content_screen = $('input[name="activity_content_screen"]:checked').val();
+			var activity_return_num = $('input[name="activity_return_num"]').val();
+			var activity_url = $('input[name="activity_url"]').val();
+
+			var ue_plain = ue.getPlainTxt();
+
+			if(atc_title == ''){
+				alert("请输入标题");
+				return;
+			} else if(ue.getContentLength(true) < 6 || ue_plain.substr(0, ue_plain.length-1) == '文章内容（至少6个汉字）'){
+				alert("至少输入6个字");
+				return;
+			}
+
+			$.ajax({
+				url:"{@url:}m=wap&c=ForumNew&a=doadd",
+				type:'post',
+				data:{
+					fid:fid,
+					csrf_token:"{$csrf_token}",
+					atc_title:atc_title,
+					atc_content:atc_content,
+					type:type,
+					activity_time_start:activity_time_start,
+					activity_time_end:activity_time_end,
+					activity_prefix:activity_prefix,
+					activity_type:activity_type,
+					activity_content_screen:activity_content_screen,
+					activity_return_num:activity_return_num,
+					activity_url:activity_url,
+				},
+				success:function(data){
+					//console.log(data);
+					try{
+						data = eval('('+data+')');
+						if(data['state'] == 'success'){
+							alert('发帖成功');
+							window.location.href = "{@url:}"+data['url'];
+						} else if(data['state'] == 'word'){
+							alert('标题或者话题中含有敏感词：'+data['msg']);
+						} else if(data['state'] == 'sword'){
+							alert(data['msg']);
+						} else if(data['state'] == 'repeat'){
+							alert(data['msg']);
+						}
+					} catch(e){
+						alert('发帖失败');
+					}
+					
+				}
+			})
+		}
+	</script>
+	<template source='TPL:admin.common.footer' />
+    </body>
+</html>

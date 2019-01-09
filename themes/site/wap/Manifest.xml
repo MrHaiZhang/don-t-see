@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+	<application>
+		<name>wap模板</name>
+		<alias>wap</alias>
+		<version>1.0</version>
+		<pw-version>9.0</pw-version>
+		<charset>UTF-8</charset>
+		<type>style</type>
+		<style-type>site</style-type>
+		<description></description>
+		<logo></logo>
+		<website></website>
+		<author-name></author-name>
+		<author-email></author-email>
+		<author-icon></author-icon>
+	</application>
+
+</manifest>

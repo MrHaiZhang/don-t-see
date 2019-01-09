@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+<head>
+<template source='TPL:admin.common.head' />
+</head>
+<body>
+<div class="wrap">
+
+
+	<div class="h_a">积分统计</div>
+	<form id="J_message_form" action="{@url:wap/PointCount/run}" method="post">
+	<div class="table_full">
+		<table width="100%">
+			<col class="th" />
+			<col width="400" />
+			<col />
+			<tr>
+				<th>积分类型</th>
+				<td>
+					<select name="credit_num">
+						<!--#foreach($pwCreditBo as $key => $credit){ #-->
+							<option value="{$key}">{$credit}</option>
+						<!--# } #-->
+					</select>
+				</td>
+				<td></td>
+			</tr>
+			<tr>
+				<th>积分间隔</th>
+				<td>
+					<input type="number" class="input length_2" name="group_num" value="{$group_num}">
+				</td>
+				<td>100表示1到100,101到200</td>
+			</tr>
+		</table>
+	</div>
+	<div class="btn_wrap">
+		<div class="btn_wrap_pd">
+			<button class="btn btn_submit" type="submit">提交</button>
+		</div>
+	</div>
+	</form>
+
+	<br/><br/>
+	<div class="table_full">
+		<table class="length_6">
+			<thead>
+				<tr>
+					<td>区间</td>
+					<td>人数</td>
+				</tr>
+			</thead>
+			<tbody>
+				<!--#foreach($group_list as $key => $value){ #-->
+				<tr>
+					<td>{$value['start']}~{$value['end']}</td>
+					<td>{$value['count']}</td>
+				</tr>
+				<!--# } #-->
+			</tbody>
+		</table>
+	</div>
+
+</div>
+<template source='TPL:admin.common.footer' />
+<script>
+
+</script>
+</body>
+</html>

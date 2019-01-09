@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <template source='TPL:common.head2' suffix='htm' />
+
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+		<meta name="format-detection" content="telephone=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="default">
+		<link rel="stylesheet" href="{@theme:site.wap.css}/base.css"/>
+		<link rel="stylesheet" href="{@theme:site.wap.css}/community.css">
+		<link rel="stylesheet" href="{@theme:site.wap.css}/community_user_center.css">
+		<script src="{@theme:site.wap.js}/jquery.min.js"></script>
+		<script src="{@theme:site.wap.js}/jquery.event.drag-1.5.min.js"></script>
+		<script src="{@theme:site.wap.js}/jquery.touchSlider.js"></script>
+		<script src="{@theme:site.wap.js}/common.js"></script>
+
+    </head>
+    <style type="text/css">
+	.blur_li *{
+		color:#1ea4f2 !important;
+	}
+    </style>
+    <body>
+    <div class="bottom-nav">
+            <div class="publish"><a href="javascript: history.go(-1);">返回上一页</a></div>
+    </div>
+
+	 <div class="all_content">
+
+    	<div class="q_layout">
+		<div class="section">
+			<div class="user-head-box">
+                <div class="head-pic" style="height: 50px;"><img src="{@Pw::getAvatar($loginUser->uid,'big')}?{$time}" alt="" style="width: 100%;"></div>
+                <div class="user-des">
+                    <p class="name" style="font-size: 15px;margin-right: 2px;">{$loginUser->username}</p> <p class="name user-id">（ID：{$loginUser->info['ident_id']}）</p> 
+                    <div class="blur_li"><p class="lever-icon">我的积分：{$plat_credit}</p></div>
+                </div>
+                <div class="change_btn">
+                	<!-- <img src="http://bbs.test.q-dazzle.com/themes/site/wap/images/community/change.png" alt=""> -->
+                </div>
+            </div>
+		</div>
+		<div class="section task-section">
+			<ul>
+    			<li class="title">
+    				<span class="user-msg-img-wrap"><img src="{@theme:site.wap.images}/community/task.png" alt=""></span>
+					<span class="msg_text">每日任务</span>
+					<i class="fr orange"></i>
+    			</li>
+    			<!--# if($config['punch.open'] == 1){#-->
+	    			<!--# if($punch['time'] < strtotime(date('y-m-d', time()))){#-->
+					<li>
+	    				<span class="user-msg-img-wrap"></span>
+						<span class="msg_text">每日签到（{$config['punch.reward']['min']}{$config['punch.reward']['type_name']}）</span>
+						<i class="fr un-finish-color">（0/1）</i>
+	    			</li>	
+					<!--# } else{ #-->
+					<li class="blur_li">
+	    				<span class="user-msg-img-wrap"></span>
+						<span class="msg_text">每日签到（{$config['punch.reward']['min']}{$config['punch.reward']['type_name']}）</span>
+						<i class="fr un-finish-color">（1/1）</i>
+	    			</li>
+					<!--# } #-->
+				<!--# } #-->
+    			<!--# foreach($list as $key=>$value){ 
+    				if($value['period'] > 0){ #-->
+    					<!--# if($value['tag'] != 6){#-->
+						<li>
+		    				<span class="user-msg-img-wrap"></span>
+							<span class="msg_text">{$value['title']}（{$value['reward']['descript']}）</span>
+							<i class="fr un-finish-color">（{$value['ed_num']}/{$value['end_num']}）</i>
+		    			</li>	
+    					<!--# } else{ #-->
+						<li class="blur_li">
+		    				<span class="user-msg-img-wrap"></span>
+							<span class="msg_text">{$value['title']}（{$value['reward']['descript']}）</span>
+							<i class="fr un-finish-color">（{$value['ed_num']}/{$value['end_num']}）</i>
+		    			</li>
+    					<!--# } #-->
+    				<!--# }
+    			} #-->
+    		</ul>
+		</div>
+		<div class="section">
+			<ul>
+				<li class="title">
+					<span><img src="{@theme:site.wap.images}/community/task_new.png" alt=""></span>
+					<span class="msg_text">新手任务</span>
+				</li>
+				<!--# foreach($list as $key=>$value){ 
+					if($value['period'] == 0){ #-->
+    					<!--# if($value['tag'] != 6){#-->
+						<li>
+		    				<span class="user-msg-img-wrap"></span>
+							<span class="msg_text">{$value['title']}（{$value['reward']['descript']}）</span>
+							<i class="fr un-finish-color">未完成</i>
+		    			</li>	
+    					<!--# } else{ #-->
+						<li class="blur_li">
+		    				<span class="user-msg-img-wrap"></span>
+							<span class="msg_text">{$value['title']}（{$value['reward']['descript']}）</span>
+							<i class="fr un-finish-color">已完成</i>
+		    			</li>
+    					<!--# } #-->
+    				<!--# }
+    			} #-->
+			</ul>
+		</div>
+		<div class="section">
+			<ul>
+				<li class="title" onclick="location.href='index.php?m=wap&c=Record'">
+					<span><img src="{@theme:site.wap.images}/community/jifen_huoqu.png" alt=""></span>
+					<span class="msg_text">积分获取记录</span>
+				</li>
+			</ul>
+		</div>
+
+
+    	</div>
+    </div>
+
+    <div style="height: 44px;"></div>
+
+    </body>
+</html>

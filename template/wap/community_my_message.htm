@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <template source='TPL:common.head2' suffix='htm' />
+        
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default">
+        <link rel="stylesheet" href="{@theme:site.wap.css}/base.css"/>
+        <link rel="stylesheet" href="{@theme:site.wap.css}/community.css?2">
+        <script src="{@theme:site.wap.js}/jquery.min.js"></script>
+        <script src="{@theme:site.wap.js}/jquery.event.drag-1.5.min.js"></script>
+        <script src="{@theme:site.wap.js}/jquery.touchSlider.js"></script>
+        <script src="{@theme:site.wap.js}/common.js"></script>
+        <script src ="{@theme:site.wap.js}/community.js"></script>
+        <style>
+        .rb{border-right: 1px solid #e5e5e5;}
+        .title{font-size: 16px;color:#949494;line-height: 44px;    display: inline-block; width: 49%;}
+        h3{text-align:left;font-size: 16px;font-weight: 400;color:#000;}
+        .post_list li{border-bottom: 1px solid #e5e5e5;}
+        .post-con{text-align: left;color: #949494;font-size: 13px;}
+        .delete{display:inline-block;width:40px;}
+        .activity{color:#1ea4f2;}
+        .user-list .discuss-list li{padding:10px 0px; border-bottom: 1px solid #e5e5e5;}
+
+    /* 确认弹框 */
+    .confirm_cover {background-color: rgba(0,0,0,.4);position: fixed;top: 0;width: 100%;height: 100%;z-index: 99;}
+    .confirm_box {background-color: #fff;display:inline-block;    margin: 0 auto; color: #333;margin-top: 50%;}
+    .text_top {border-bottom: 1px solid #aaa;line-height: 40px;    padding: 0 10px;}
+    .btn_bottom_tab {background-color: #fff;z-index: 99;}
+    .continue_hide {display: inline-block;line-height: 30px;width: 49%;border-right: 1px solid #aaa;}
+    .cancel_hide {display: inline-block;line-height: 30px;width: 49%;}
+    .text-p{display:inline-block;}
+    .W_icon{vertical-align: middle;
+        margin-right: 5px;background-position: -350px -50px;width: 16px;
+        height: 16px;display: inline-block;
+        background-image: url(http://img.t.sinajs.cn/t6/style/images/common/icon.png?id=164820170915);
+        background-repeat: no-repeat;line-height: 18px;}
+    
+    .discuss-text {
+        color: #333;
+        padding-bottom: 10px;
+    }
+    .post-con {
+        background-color: #f2f2f2;
+        padding: 10px;
+    }
+    .post-text {
+        text-align: left;
+        color: #949494;
+    }
+    .discuss-con { padding-bottom: 10px; };
+    .uncontent{ padding: 10px; background-color: #f2f2f2; }
+    .reply_con{ text-align: left; color: #949494; border-bottom: 1px solid #e5e5e5; padding-bottom: 5px;font-size: 16px; margin-bottom: 5px;}
+    .thread_user{ text-align: right;padding-top: 10px; }
+
+    .load-more{ line-height: 25px; display: none; }
+    /* 系统消息样式 */
+    .head-pic img{width: 100%;}
+    .discuss-system{ padding-top: 10px;display: flex; justify-content: space-between; }
+    .title-system,.text-system{text-align:left;}
+    .title-system{font-weight: 700;}
+    .system-list .discuss-list li{padding:10px 0;}
+    .gray-border-bottom{border-bottom: 1px solid #e4e4e4;}
+
+
+
+        </style>
+    </head>
+    <body>
+    <div class="all_content">
+        <div class="q_layout">
+            <div class="section">
+                <div class="title-tab">
+                    <!--# if($type == 'user') { #-->
+                        <h4 class="title rb activity user_msg" onclick="change_topic('user_msg')">用户消息{$u_unreadCount}</h4>
+                        <h4 class="title sys_msg" onclick="change_topic('sys_msg')">系统消息{$s_unreadCount}</h4>
+                    <!--# } else{ #-->
+                        <h4 class="title rb user_msg" onclick="change_topic('user_msg')">用户消息{$u_unreadCount}</h4>
+                        <h4 class="title activity sys_msg" onclick="change_topic('sys_msg')">系统消息{$s_unreadCount}</h4>
+                    <!--# } #-->
+                </div>
+            </div>
+            
+            <div class="user-list">
+                <!--# if(count($posts) > 0) { #-->
+                <div class="section">
+                    <ul class="discuss-list">
+                        <!--# foreach ($posts as $key => $read) { #-->
+                        <li><a href="{@url:}index.php?m=wap&c=ForumData&tid={$read['extend_params']['threadId']}&post_anchor={$read['anchor_id']}">
+                            <div class="head-pic"><img src="{$read['created_userimg']}" alt=""></div>
+                            <div class="discuss-con">
+                                <div class="discuss-user">
+                                    <div class="user-name-18">{$read['created_username']|html}</div>
+                                    <div class="data">{$read['created_time']}</div>
+                                </div>
+                                <div class="discuss-text">{$read['rp_post']|html}</div>
+                                <div class="clr"></div>
+                                <div class="post-con">
+                                    <!--# if($read['reply_username']) { #-->
+                                    <div class="reply_con">{$read['reply_username']|html}：{$read['reply_content']|html}</div>
+                                    <!--# } #-->
+                                    <h3>{$read['threadSubject']|html}</h3>
+                                    <div class="post-text post_text_size show_2_line">{$read['threadContent']|html}</div>
+                                    <div class="thread_user">{$read['threadUsername']|html}</div>
+                                </div>
+                                 
+                            </div>
+                        </a></li>
+                        <!--# } #-->
+                    </ul>
+                </div>
+                <!--# } else{ #-->
+                    <div class="uncontent">已显示全部内容</div>
+                <!--# } #-->
+            </div>
+            
+            <div class="system-list">
+               <!--  <div class="section">
+                    <ul class="discuss-list">
+                    </ul>
+                </div> -->
+            </div>
+
+            <div class="load-more">加载更多内容</div>
+            <div style="height: 44px;"></div>
+        </div>
+    </div>
+    <!-- 返回上一页 -->
+    <div class="bottom-nav">
+            <div class="publish"><a href="{@url:}index.php?m=wap&c=UserCenter&fid={$fid}">返回上一页</a></div>
+    </div>
+
+    <!-- <div class="confirm_cover hide">
+            <div class="confirm_box">
+                <div class="text_top"><span class="W_icon icon_askS"></span><div class="text-p">确定删除该条帖子吗</div></div>
+                <div class="btn_bottom_tab"><div class="continue_hide" onclick="deleteCom(obj);">确定</div><div class="cancel_hide" onclick="cancelDelete();">取消</div></div>
+            </div>
+        </div> -->
+    
+    </body>
+    <script>
+   // $(".delete").click(function(event) {
+   //   // 确定删除：
+   //  makeSure("确定删除该条帖子吗");
+   //  obj = $(this).parent("h3").parent("li")
+   // });
+
+   // function deleteCom(obj) {
+   //  // console.log(obj)
+   //    $(obj).remove();
+   //    $(".confirm_cover").fadeOut('fast');
+   // }
+
+   // function cancelDelete() {
+   //     $(".confirm_cover").fadeOut('fast');
+   // }
+
+   // /*确认弹框*/
+   // function makeSure(msg) {
+   //     $(".text-p").html(msg)
+   //     $(".confirm_cover").fadeIn('fast');
+
+   // }
+   
+    var loadMore = false;       //是否到底
+    var loadSysNew = true;     //系统消息判断是否可以加载
+    var loadSysPage = 0;     //系统消息当前页数
+
+    var loadNew = true;     //用户消息判断是否可以加载
+    var loadPage = {$page}?{$page}:1;     //用户消息当前页数
+    
+
+    /*切换“用户消息”和“系统消息*/
+    function change_topic(className) {
+        var obj = $("."+className)
+        obj.parents(".title-tab").children('h4').each(function(index, el) {
+            $(this).removeClass('activity')
+        });
+        obj.addClass('activity');
+        if (className == 'sys_msg') {
+            $(".user-list").addClass('hidden')
+            $(".system-list").removeClass('hidden')
+            if(loadSysPage == 0){
+                loadData('system');
+            }
+        }else{
+            $(".system-list").addClass('hidden')
+            $(".user-list").removeClass('hidden')
+            if(loadPage == 0){
+                loadData('user');
+            }
+        }
+    }
+
+    /*判断上下滑动：*/
+    $('body').bind('touchstart',function(e){
+        startX = e.originalEvent.changedTouches[0].pageX;
+        startY = e.originalEvent.changedTouches[0].pageY;
+    });
+    $("body").bind("touchmove",function(e){
+        //获取滑动屏幕时的X,Y
+        endX = e.originalEvent.changedTouches[0].pageX;
+        endY = e.originalEvent.changedTouches[0].pageY;
+        //获取滑动距离
+        distanceX = endX-startX;
+        distanceY = endY-startY;
+
+        //拉到底部加载新评论
+        if(Math.abs(distanceX)<Math.abs(distanceY) && distanceY<0){
+            
+            var scrollH = $('.all_content').scrollTop();       //获取屏幕滚动的高度/偏移量
+            var scrollHeight = $('.all_content').prop('scrollHeight');      //滚动条高度
+            var clientHeight = $(document).height();      //窗口高度
+
+            if(!$(".user-list").hasClass('hidden')){
+                if(scrollHeight <= clientHeight+scrollH && loadNew){
+                    $('.load-more').show();
+                    loadMore = true;
+
+                }
+            } else if(!$(".system-list").hasClass('hidden')){
+                if(scrollHeight <= clientHeight+scrollH && loadSysNew){
+                    $('.load-more').show();
+                    loadMore = true;
+
+                }
+            }           
+        } else if(Math.abs(distanceX)<Math.abs(distanceY) && distanceY>0){
+            console.log('往下滑动');
+            if(loadMore){
+                $('.load-more').hide();
+                $('.load-more').html('加载更多内容');
+                loadMore = false;
+            }
+        }
+    });
+
+    $('body').bind('touchend',function(e){
+        if(loadMore){
+            $('.load-more').hide();
+            $('.load-more').html('加载更多内容');
+            loadMore = false;
+
+            if(!$(".user-list").hasClass('hidden')){
+                loadData('user');
+            } else if(!$(".system-list").hasClass('hidden')){
+                loadData('system');
+            }
+        }
+    });
+
+    /**
+    * 加载数据
+    * @param  {[string]} type [加载类型]
+    * @return {[type]}      [description]
+    */
+    function loadData(type){
+        if(type == 'user' && loadNew){
+            loadNew = false;
+            loadPage++;
+            var url = "{@url:}index.php?m=wap&c=MyNotice&type="+type+"&page="+loadPage+"&ajax=ajax";
+
+            var loadtf = ajaxData(loadPage, url, $('.user-list .discuss-list'));
+            if(loadtf == 'loadNext'){
+                setTimeout(function(){
+                    loadNew = true;
+                }, 1000);
+            }
+        } else if(type == 'system' && loadSysNew){
+            loadSysNew = false;
+            loadSysPage++;
+            var url = "{@url:}index.php?m=wap&c=MyNotice&type="+type+"&page="+loadSysPage+"&ajax=ajax";
+
+            // var loadtf = ajaxData(loadSysPage, url, $('.system-list .discuss-list'));
+            var loadtf = ajaxData(loadSysPage, url, $('.system-list'));
+            if(loadtf == 'loadNext'){
+                setTimeout(function(){
+                    loadSysNew = true;
+                }, 1000);
+            }
+        }
+    }
+
+    /**
+    * 将数据放入dom
+    * @param  {[int]} loadPage [页码]
+    * @param  {[string]} loadUrl  [请求url]
+    * @param  {[obj]} loadObj  [加载对象]
+    * @return {[string]}          [判断是否还可以加载]
+    */
+    function ajaxData(loadPage, loadUrl, loadObj){
+        var loadtf = 'loadNext';
+        $.ajax({
+            url:loadUrl,
+            type:'GET',
+            async:false,
+            success:function(data){
+                //console.log(data);
+                data = eval('('+data+')');
+                //console.log(data);
+                var page = data['page'];        //页码
+                var total = data['total'];      //总数
+                var list = data['list'];        //数据
+                
+                //已经加载完
+                if(page < loadPage || list == ''){
+                    if (loadObj.hasClass('system-list')) {
+                        loadObj.append('<div class="uncontent">已显示全部内容</div>');
+                    }else{
+                        loadObj.parent().after('<div class="uncontent">已显示全部内容</div>');
+                    }
+                    
+                    loadtf = 'loadOut';
+                    return loadtf;
+                }
+
+                for(var i = 0; i < list.length; i++) {
+                    //图片
+                    /*var attach = '';
+                    if(list[i]['attach'] != ''){
+                        attach = '<div class="discuss-img-box">';
+                        for(var j = 0; j < list[i]['attach'].length; j++){
+                            attach += '<div class="discuss-img"><img src="'+list[i]['attach'][j]+'" alt=""></div>';
+                        }
+                        attach += '</div>';
+                    }*/
+                    //当时系统消息时，用系统头像
+                    if(list[i]['created_userimage']){
+                        loadObj.append('<div class="section"><ul class="discuss-list"><li>'+
+                            '<div class="gray-border-bottom">'+
+                            '<div class="head-pic"><img src="{@theme:site.wap.images}/'+list[i]['created_userimage']+'" alt=""></div>'+
+                            '<div class="discuss-con">'+
+                                '<div class="title-system user-name-18">'+list[i]['extend_params']['title']+'</div>'+
+                                '<p class="text-system text-16 gray-font">'+list[i]['extend_params']['content']+'</p>'+
+                                
+                                '<div class="clr"></div>'+
+                            '</div>'+
+                            '</div>'+
+                            '<div class="discuss-system flex-box">'+
+                                    '<p class="">'+'<span class="official-icon">官方</span>'+'</p>'+
+                                    '<div class="data">'+list[i]['created_time']+'</div>'+
+                                '</div>'+
+                        '</li></ul></div>');
+                    } else{
+                        loadObj.append('<li><a href="{@url:}index.php?m=wap&c=ForumData&tid='+list[i]['extend_params']['threadId']+'&post_anchor='+list[i]['anchor_id']+'">'+
+                            '<div class="head-pic"><img src="'+list[i]['created_userimg']+'" alt=""></div>'+
+                            '<div class="discuss-con">'+
+                                '<div class="discuss-user">'+
+                                    '<div class="user-name-18">'+list[i]['created_username']+'</div>'+
+                                    '<div class="data">'+list[i]['created_time']+'</div>'+
+                                '</div>'+
+                                '<div class="discuss-text">'+list[i]['rp_post']+'</div>'+
+                                '<div class="clr"></div>'+
+                                '<div class="post-con">'+
+                                    '<h3>'+list[i]['threadSubject']+'</h3>'+
+                                    '<div class="post-text post_text_size show_2_line">'+list[i]['threadContent']+'</div>'+
+                                '</div>'+
+                            '</div>'+
+                        '</li>');
+                    }
+                    
+                    
+                }
+            }
+        })
+
+        return loadtf;
+    }
+   
+    </script>
+</html>

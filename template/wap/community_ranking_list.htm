@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <template source='TPL:common.head2' suffix='htm' />
+        
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+		<meta name="format-detection" content="telephone=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="default">
+		<link rel="stylesheet" href="{@theme:site.wap.css}/base.css"/>
+		<link rel="stylesheet" href="{@theme:site.wap.css}/community.css">
+		<link rel="stylesheet" href="{@theme:site.wap.css}/community_user_center.css">
+		<script src="{@theme:site.wap.js}/jquery.min.js"></script>
+		<script src="{@theme:site.wap.js}/jquery.event.drag-1.5.min.js"></script>
+		<script src="{@theme:site.wap.js}/jquery.touchSlider.js"></script>
+        <script src="{@theme:site.wap.js}/common.js"></script>
+    </head>
+    <body>
+	 <div class="all_content-list">
+		<div class="first-section section">
+	        <div class="gamelist">
+	            <div class="game_community_title">
+	                <div class="header-icon-body">
+	                  <img src="{@Pw::getPath($pwforum->foruminfo['icon'])}" id="icon_id" alt="" title="">
+	                </div>
+	                <h1 class="game-name">{@$pwforum->foruminfo['name']|html}</h1>
+	                <div class="download_btn">
+	                    <a class="back-community" href="{@url:}index.php?m=wap&c=OneGame&fid={$pwforum->foruminfo['fid']}">回到社区</a>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+
+		<div class="q_layout" style="padding-top: 92px;">
+			<div class="tab-section">
+				<div class="tab">
+					<span class="essence-rank qxblue">精华榜</span>
+					<span class="like-rank">点赞榜</span>
+					<span class="sign-rank">签到榜</span>
+					<i class="vertical_line under_line"></i>
+				</div>
+				<div class="tab_msg-wrap">
+					<div class="essence-rank tab_msg">
+						<span class="ltgray">精华帖子数（周一零点重置）</span>
+						<i class="fr qxblue">前30名</i>
+					</div>
+					<div class="like-rank tab_msg hidden">
+						<span class="ltgray">收到点赞数（周一零点重置）</span>
+						<i class="fr qxblue">前30名</i>
+					</div>
+					<div class="sign-rank tab_msg hidden">
+						<span class="ltgray">累计签到数（永久保留）</span>
+						<i class="fr qxblue">前30名</i>
+					</div>
+				</div>
+			</div>
+
+			<div class="rank_list-section">
+				<ul class="essence-rank rank_list">
+                <!--# foreach($diest_list as $key=>$res){  #-->
+                    <li style="width: 100%">
+                        <div class="icon_box">
+                            <!--# if($key == 0){ #-->
+                                <div class="top_icon top1"></div>
+                            <!--# } else if($key == 1){ #-->
+                                <div class="top_icon top2"></div>
+                            <!--# } else if($key == 2){ #-->
+                                <div class="top_icon top3"></div>
+                            <!--# } else{ #-->
+                                <div class="top_icon">{$key+1}</div>
+                            <!--# } #-->                      
+                        </div>
+                        <div class="game-list" style="width: 100%;">
+                            <div class="head-pic" style="height: 50px;"><img src="{@Pw::getAvatar($res['uid'],'big')}?{$time}" alt="" style="width: 100%;"></div>
+                            <div class="lf" style="padding:3px 0 0 8px;width: 66%">
+                                <p class="title">{$res['username']}</p>
+                            </div>
+                        </div>
+                         <div class="" style="float: right;padding-right: 5px;">
+                            <div class="list-rank" style="float: right;">{$res['num']}</div>
+                        </div>
+                    </li>
+                <!--# } #-->
+                </ul>
+
+				<ul class="like-rank rank_list hidden">
+                <!--# foreach($like_list as $key=>$res){  #-->
+                    <li style="width: 100%">
+                        <div class="icon_box">
+                            <!--# if($key == 0){ #-->
+                                <div class="top_icon top1"></div>
+                            <!--# } else if($key == 1){ #-->
+                                <div class="top_icon top2"></div>
+                            <!--# } else if($key == 2){ #-->
+                                <div class="top_icon top3"></div>
+                            <!--# } else{ #-->
+                                <div class="top_icon">{$key+1}</div>
+                            <!--# } #-->                      
+                        </div>
+                        <div class="game-list" style="width: 100%;">
+                            <div class="head-pic" style="height: 50px;"><img src="{@Pw::getAvatar($res['uid'],'big')}?{$time}" alt="" style="width: 100%;"></div>
+                            <div class="lf" style="padding:3px 0 0 8px;width: 66%">
+                                <p class="title">{$res['username']}</p>
+                            </div>
+                        </div>
+                         <div class="" style="float: right;padding-right: 5px;">
+                            <div class="list-rank" style="float: right;">{$res['num']}</div>
+                        </div>
+                    </li>
+                <!--# } #-->
+				</ul>
+				
+				<ul class="sign-rank rank_list hidden">
+				<!--# foreach($punch_list as $key=>$res){  #-->
+                    <li style="width: 100%">
+                        <div class="icon_box">
+                            <!--# if($key == 0){ #-->
+                                <div class="top_icon top1"></div>
+                            <!--# } else if($key == 1){ #-->
+                                <div class="top_icon top2"></div>
+                            <!--# } else if($key == 2){ #-->
+                                <div class="top_icon top3"></div>
+                            <!--# } else{ #-->
+                                <div class="top_icon">{$key+1}</div>
+                            <!--# } #-->                      
+                        </div>
+                        <div class="game-list" style="width: 100%;">
+                            <div class="head-pic" style="height: 50px;"><img src="{@Pw::getAvatar($res['uid'],'big')}?{$time}" alt="" style="width: 100%;"></div>
+                            <div class="lf" style="padding:3px 0 0 8px;width: 66%">
+                                <p class="title">{$res['username']}</p>
+                            </div>
+                        </div>
+                         <div class="" style="float: right;padding-right: 5px;">
+                            <div class="list-rank" style="float: right;">{$res['num']}</div>
+                        </div>
+                    </li>
+                <!--# } #-->
+				</ul>
+			</div>
+
+		</div>
+
+    </div>
+
+
+    </body>
+    <script>
+    /*精华榜、点赞榜、签到榜切换*/
+    	$(".tab span").each(function(index, el) {
+    		$(this).click(function(event) {
+    			$(".tab span").each(function(index, el) {
+    				$(this).removeClass('qxblue')
+    			});
+    			$(this).addClass('qxblue')
+    			var msgClass = $(this).attr('class').split(" ",1);
+    			var className = msgClass[0];
+    			/*三榜单说明切换*/
+    			$(".tab_msg-wrap div").each(function(index, el) {
+    				if (!$(this).hasClass('hidden')) {
+    					$(this).addClass('hidden')
+    				}
+    			});
+    			$(".tab_msg-wrap").children('.'+className).removeClass('hidden')
+    			/*三榜单排行榜切换*/
+    			$(".rank_list-section ul").each(function(index, el) {
+    				if (!$(this).hasClass('hidden')) {
+    					$(this).addClass('hidden')
+    				}
+    			});
+    			$(".rank_list-section").children('.'+className).removeClass('hidden')
+    		});
+    	});
+    </script>
+</html>

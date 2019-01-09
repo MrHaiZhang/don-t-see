@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest>
+	<application>
+	<name>阿里巴巴滑动验证码</name>
+	<alias>oculus</alias>
+	<version>1.0</version>
+	<pw-version>9.0.2</pw-version>
+	<description>反欺诈服务是基于阿里大数据风控服务能力，通过领先的行为收集技术和机器学习模型，解决企业账号、活动、支付等关键业务环节存在的欺诈威胁。 通过引入前端拦截组件对用户请求进行验证，可信用户通过验证直接进入业务流程，恶意用户拦截</description>
+	<logo>images/logo.jpg</logo>
+	<type>app</type>
+	<charset>UTF-8</charset>
+	<website>https://www.aliyun.com/product/antifraud</website>
+	<author-name>阿里云</author-name>
+	<author-email></author-email>
+	<author-icon>your icon</author-icon>
+	</application>
+	<res>res</res>
+	<installation-service>
+	</installation-service>
+	<inject-services>
+	<s_admin_menu>
+	<app_oculus>
+	<class>EXT:oculus.service.srv.App_Oculus_ConfigDo</class>
+	<loadway>load</loadway>
+	<method>getAdminMenu</method>
+	<description>阿里巴巴滑动验证码admin menu</description>
+	</app_oculus>
+	</s_admin_menu>
+        <s_footer>
+	<app_oculus>
+	<class>EXT:oculus.service.srv.App_Oculus_Verify_FooterShowDo</class>
+	<loadway>load</loadway>
+	<method>app_OculusDo</method>
+	<description>前台全局hook点</description>
+	</app_oculus>
+	</s_footer>
+        <c_register>
+	<app_oculus>
+	<class>EXT:oculus.service.App_Oculus_RegInject</class>
+	<loadway></loadway>
+	<method>run</method>
+	</app_oculus>
+	</c_register>
+        <c_post_doadd>
+	<app_oculus>
+	<class>EXT:oculus.service.App_Oculus_PostInject</class>
+	<loadway></loadway>
+	<method>run</method>
+	</app_oculus>
+	</c_post_doadd>
+        <c_login_dorun>
+	<app_oculus>
+	<class>EXT:oculus.service.App_Oculus_LoginInject</class>
+	<loadway></loadway>
+	<method>run</method>
+	</app_oculus>
+	</c_login_dorun>
+	</inject-services>
+	</manifest>

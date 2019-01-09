@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+<template source='TPL:admin.common.head' />
+</head>
+<body>
+<div class="wrap J_check_wrap">
+	<div class="nav">
+		<ul class="cc">
+			<li class="current"><a href="{@url:bbs/managecount/run}">管理统计</a></li>
+		</ul>
+	</div>
+	<div class="h_a">功能说明</div>
+	<div class="prompt_text">
+		<ol>
+			<li>时间为所选当日零点</li>
+		</ol>
+	</div>
+
+	<div class="h_a">搜索</div>
+	<form method="post" id="thread_form" action="{@url:bbs/managecount/run}">
+		<div class="search_type cc mb10">
+			<div class="ul_wrap">
+				<ul class="cc">
+					<li>
+						<label>操作者：</label><input type="text" class="input length_3" value="{$created_user}" name="created_user">
+					</li>
+					<li>
+						<label>操作时间：</label><input class="input length_2 mr5 J_date" type="text" name="start_time" value="{$start_time}"><span class="mr5">至</span><input class="input length_2 J_date" type="text" name="end_time" value="{$end_time}">
+					</li>
+				</ul>
+			</div>
+			<div class="btn_side">
+				<button class="btn btn_submit" type="submit">搜索</button>
+			</div>
+		</div>
+	</div>
+	</form>
+	
+	<!--# if ($list) { #-->
+		<div class="table_list">
+			<table width="100%">
+				<colgroup>
+					<col width="60">
+					<col width="300">
+				</colgroup>
+				<thead>
+					<tr>
+						<td><label><input type="checkbox" class="J_check_all" data-direction="x" data-checklist="J_check_x">全选</label></td>
+						<td>账号</td>
+						<td>回帖数量</td>
+						<td>回楼层数量</td>
+						<td>管理操作数量</td>
+					</tr>
+				</thead>
+				<!--# foreach ($list as $v) { 
+
+				#-->
+				<tr>
+					<td><input type="checkbox" class="J_check" data-yid="J_check_y" data-xid="J_check_x" name="uids[]" value="{$v['uid']}"></td>
+					<td><a href="javascript: void(0);" target="_blank">{$v['username']}</a></td>
+					<td><a href="{@url:bbs/article/searchreply?created_username=$v['username']&created_time_start=$start_time&created_time_end=$end_time&replyId=0}" target="_blank">{$v['reply_thread']}</a></td>
+					<td><a href="{@url:bbs/article/searchreply?created_username=$v['username']&created_time_start=$start_time&created_time_end=$end_time&replyId=-1}" target="_blank">{$v['reply_lou']}</a></td>
+					<td><a href="{@url:log/manage/run?created_user=$v['username']&start_time=$start_time&end_time=$end_time}" target="_blank">{$v['manage_count']}</a></td>
+				</tr>
+				<!--# } #-->
+			</table>
+			<div class="p10">
+				<page tpl='TPL:common.page' page='$page' count='$count' per='$perpage' url='bbs/managecount/run' args='$args'/>
+			</div>
+		</div>
+	<!--# } else { #-->
+		<div class="not_content_mini"><i></i>啊哦，没有符合条件的内容！</div>
+	<!--# } #-->
+</div>
+<script type="text/javascript">
+
+</script>
+<template source='TPL:admin.common.footer' />
+</body>
+</html>

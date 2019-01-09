@@ -1,0 +1,225 @@
+/*
+* @Author: pc
+* @Date:   2017-12-08 10:21:49
+* @Last Modified by:   pc
+* @Last Modified time: 2018-01-12 10:00:51
+*/
+td, th, div{    word-break: normal;word-wrap: break-word;}
+.un-finish-color{color: #949494}
+        img{display:block;}
+        .change_btn{float: right;    margin-top: 8px;}
+        .user-head-box{border: none;}/*display: flex;justify-content: space-between;*/
+        .section,.section li{text-align:left;}
+        .section span{ display: inline-block;vertical-align: middle;}
+        .section i{line-height: 38px;height:38px;}
+        .section1 .user-msg{position:relative;text-align: left;height: 38px;line-height: 38px;}
+        .section1 .user-msg-img-wrap{height: 34px;}
+        .section li{line-height: 38px;border-bottom: 1px solid #e5e5e5;height: 38px;position:relative;}
+        .section li:last-child{border-bottom: 1px solid #fff;}
+        .section .msg_text{position:absolute;line-height: 38px;    height: 38px; left: 43px;font-size: 15px;color:#949494;}
+        /* 开关动态效果 */
+        .m-switch{float: right;
+    transition: width .2s;
+    margin-right: 5px;position: relative;
+    display: inline-block;user-select: none;
+    vertical-align: middle;
+    font-size: 14px;
+    cursor: pointer;}
+        .m-switch.lg{    width: 40px;
+    height: 22px;}
+    .m-switch-input{
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+    }
+    .m-switch-helper{    margin-left: 0;
+    background-color: #1ba3f4;}
+    .m-switch-helper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    text-indent: -99px;
+    background-color: #f5f6f8;
+    border: 1px solid #c4c9d2;
+    padding: 0!important;
+    -webkit-transition-duration: .4s;
+    transition-duration: .4s;
+    -webkit-transition-property: background-color;
+    transition-property: background-color;
+}
+    .m-switch-helper:before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid #888;
+    background-color: #fff;
+    pointer-events: none;
+    -webkit-transition-timing-function: cubic-bezier(.54,1.85,.5,1);
+    transition-timing-function: cubic-bezier(.54,1.85,.5,1);
+    -webkit-transition-duration: .4s;
+    transition-duration: .4s;
+    -webkit-transition-property: left;
+    transition-property: left;
+}
+.m-switch-helper:before{
+    top: -2px;
+    width: 24px;
+    height: 24px;
+    border-width: 1px;
+    left: -2px;
+    border-color: #c3c7d0;
+}
+
+.active.m-switch.lg  .m-switch-helper:before{left: 18px;}
+.active.m-switch.lg .m-switch-helper {
+    margin-left: 0;
+    background-color: #1ba3f4;
+}
+.logout-nav .publish .if_logout{background-color:#249b3d;/* background-color: #4289e0; */    position: relative;}
+
+/* 积分 */
+.title .msg_text{color: #000;}
+
+/* 社区榜单 */
+.all_content-list{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+.rank_list-section{
+    margin-bottom: 10px;
+    background-color: #fff;
+    padding: 0 14px;
+}
+
+.first-section {
+    position: fixed;
+    width: 100%;
+    z-index: 99;
+}
+.gamelist {
+    height: 82px;
+    padding: 14px 0;
+}
+.gamelist .header-icon-body {
+    width: 55px;
+    height: 55px;
+}
+.game-name {
+    font-weight: 700;
+    color: #333;
+    float: left;
+    font-size: 18px;
+    padding-left: 10px;
+    margin-top: 14px;
+}
+.back-community {
+    border-radius: 5px;
+    color: #1ea4f2;
+    display: inline-block;
+    font-size: 10pt;
+    padding: 3px 10px;
+    margin-top: 15px;
+    background-color: #fff;
+    border: 1px solid #1ea4f2;
+    font-weight: 700;
+    float: right;
+}
+.gamelist .header-icon-body img {
+    width: 100%;
+    border-radius: 18%;
+}
+.rank_list li {
+    border-bottom: 1px solid #e5e5e5;
+    position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 10px;
+}
+.icon_box {
+   /*  margin-left: 5px; */
+    margin-right: 15px;
+    text-align: center;
+    width: 20px;
+}
+
+.top_icon {
+    width: 20px;
+    height: 25px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    display: inline-block;
+        font-size: 16px;
+}
+.top1 {
+    background-image: url(http://bbs.test.q-dazzle.com/themes/site/wap/images/community/top1.png);
+}
+.top2 {
+    background-image: url(http://bbs.test.q-dazzle.com/themes/site/wap/images/community/top2.png);
+}
+.top3 {
+    background-image: url(http://bbs.test.q-dazzle.com/themes/site/wap/images/community/top3.png);
+}
+.rank_list .icon {
+    width: 70px;
+    height: 70px;
+    display: block;
+}
+
+.game-list h1, .game-list p {
+    text-align: left;
+}
+.list-rank{color:#949494;font-size: 14px;}
+.rank_list .title {
+    font-size: 18px;
+    line-height: 42px;
+    color: #333333;
+    margin-bottom: 5px;
+}
+.tab-section{    margin-bottom: 10px;
+    background-color: #fff;}
+.tab{
+    line-height: 40px;height: 40px;
+    display: -webkit-box;display: -webkit-flex;display: -ms-flexbox;display: flex;
+    -webkit-justify-content: space-around;-ms-flex-pack: distribute;justify-content: space-around;
+    border-bottom: 1px solid #e5e5e5;
+    position: relative;
+}
+.tab span{font-size: 16px;color: #949494}
+.tab_msg{line-height: 38px;height: 38px;text-align: left;padding:0 12px;}
+.tab_msg span,.tab_msg i{font-size: 14px;}
+
+.tab i.vertical_line{background:#1ea4f2;width:34%;height:2px;position:absolute;left:0;bottom: 0;-webkit-transition: -webkit-transform .3s ease-in-out;-moz-transition: -moz-transform .3s ease-in-out;-ms-transition: -ms-transform .3s ease-in-out;transition: transform .3s ease-in-out;}
+.tab span:nth-of-type(1).qxblue~.vertical_line {
+    transform: translateX(0);
+    -webkit-transform: translateX(0);
+}
+.tab span:nth-of-type(2).qxblue~.vertical_line {
+    transform: translateX(100%);
+    -webkit-transform: translateX(100%);
+}
+
+.tab span:nth-of-type(3).qxblue~.vertical_line {
+    transform: translateX(200%);
+    -webkit-transform: translateX(200%);
+}
+
+
+
+
